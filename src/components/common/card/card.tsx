@@ -10,6 +10,8 @@ export default function Card({
   className?: string;
 }) {
   return (
-    <article className={classNames(styles.card, className)}>{children}</article>
+    <article className={classNames(styles.card, className)}>
+      <div className={styles.inner}>{children}</div>
+    </article>
   );
 }
