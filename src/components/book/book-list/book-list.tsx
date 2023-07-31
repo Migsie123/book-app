@@ -2,40 +2,29 @@
 import React from "react";
 import styles from "./book-list.module.scss";
 import { Book } from "@/types/book";
-import { useEffect, useState } from "react";
 import BookCard from "@/components/book/book-card/book-card";
 import InfiniteScrollingList from "@/components/common/infinite-scrolling-list";
+import ErrorBoundaryComponent from "@/components/common/error-boundary-component";
 
 type BookListProps = {};
 
-export default function BookList(props: BookListProps) {
-  const [books, setBooks] = useState<Book[]>([]);
-
-  useEffect(() => {
-    const arr = [];
-    for (let i = 0; i < 100; i++) {
-      arr.push({
-        title: `Book ${i}`,
-        timestamp: new Date().toISOString(),
-        author: Math.random() > 0.5 ? "Author" : undefined,
-      });
-    }
-    setBooks(arr);
-  }, []);
-
-  const dataFetcher = () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const arr = [];
-        for (let i = 0; i < 20; i++) {
-          arr.push({
-            title: `Book ${i}`,
-            timestamp: new Date().toISOString(),
-            author: Math.random() > 0.5 ? "Author" : undefined,
-          });
-        }
-        resolve(arr);
-      }, 1500);
+const BookList = (props: BookListProps) => {
+  const dataFetcher = (page: number) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const url = new URL(window.location.href);
+        url.pathname = "/api/books";
+        if (page) url.searchParams.append("page", page.toString());
+        const res = await fetch(url);
+        const data = await res.json();
+        if (res.status !== 200)
+          throw new Error(data.message || "Unable to fetch books.");
+        const books = (data.books as Book[]) || [];
+        resolve(books);
+      } catch (err) {
+        console.log(err);
+        reject(err);
+      }
     });
   };
 
@@ -44,4 +33,6 @@ export default function BookList(props: BookListProps) {
       {(book: Book, index: number) => <BookCard key={index} book={book} />}
     </InfiniteScrollingList>
   );
-}
+};
+
+export default ErrorBoundaryComponent(BookList);
