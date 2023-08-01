@@ -22,6 +22,7 @@ export async function GET(request: Request) {
         ":offset": totalOffset,
       }
     );
+    await db.close();
     return NextResponse.json({ books });
   } catch (err: any) {
     const errMsg =
@@ -61,6 +62,7 @@ export async function POST(request: Request) {
         ":timestamp": book.timestamp,
       }
     );
+    await db.close();
     return NextResponse.json({ book });
   } catch (err: any) {
     const errMsg =
