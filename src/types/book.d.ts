@@ -6,8 +6,11 @@ CREATE TABLE books (
 );
 */
 
-export type Book = {
+type BookData = {
   title: string;
   author?: string;
+};
+export type Book = BookData & {
   timestamp: string;
 };
+export type BookFormData = BookData;

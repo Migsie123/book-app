@@ -1,0 +1,51 @@
+.bookForm {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: center;
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .errormsg {
+    font-size: 1.2rem;
+    color: var(--danger-color);
+  }
+  .optional {
+    font-size: 1.2rem;
+  }
+  button {
+    //2x font size + gap + border width
+    margin-top: calc(2.4rem + 0.3rem + 1px);
+  }
+  input {
+    //remove default button styles
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    //add custom styles
+    border-radius: 5px;
+    transition: all 0.2s;
+    border: 1px solid var(--primary-color);
+    color: var(--dark-color);
+    padding: 1rem 1.5rem;
+    font-size: 1.4rem;
+
+    &.error {
+      background-color: var(--danger-color);
+      color: var(--light-color);
+    }
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+.apierror{
+    color: var(--danger-color);
+    display: flex;
+    justify-content: center;
+    margin-top: -2.4rem;
+    margin-bottom: 2.4rem;
+}

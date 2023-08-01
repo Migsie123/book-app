@@ -1,5 +1,11 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styles from "./infinite-scrolling-list.module.scss";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "@/components/common/loader";
@@ -10,18 +16,23 @@ type InfiniteScrollingListProps = {
   children: Function;
   scrollingParent?: HTMLElement;
   dataFetcher: (page: number) => Promise<any>;
+  addedItems?: any[];
 };
 
 const InfiniteScrollingList = ({
   children,
   scrollingParent,
   dataFetcher,
+  addedItems = [],
 }: InfiniteScrollingListProps) => {
   const { showBoundary } = useErrorBoundary();
   const wrapper = useRef<HTMLDivElement>(null);
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const totalItems = useMemo(() => {
+    return [...addedItems, ...items];
+  }, [addedItems, items]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -59,12 +70,12 @@ const InfiniteScrollingList = ({
     <div ref={wrapper} className={styles.infiniteScrollingWrapper}>
       <InfiniteScroll
         className={styles.infiniteScrollingList}
-        dataLength={items.length}
+        dataLength={totalItems.length}
         next={fetchData}
         hasMore={initiallyLoaded && hasMore}
         loader={<Loader />}
       >
-        {items.map((item, index) => children(item, index))}
+        {totalItems.map((item, index) => children(item, index))}
         {!initiallyLoaded && <Loader />}
       </InfiniteScroll>
     </div>

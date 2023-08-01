@@ -8,6 +8,9 @@ type ButtonProps = {
   onClick?: () => void;
   status?: StyleStatus;
   size?: StyleSize;
+  type?: "button" | "submit";
+  loading?: boolean;
+  loadingText?: string;
 };
 
 export default function Button({
@@ -15,15 +18,23 @@ export default function Button({
   onClick,
   status = "default",
   size = "medium",
+  type = "button",
+  loading = false,
+  loadingText = "Loading...",
 }: ButtonProps) {
   return (
     <button
-      className={classNames(styles.button, styles[status], styles[size])}
+      type={type}
+      className={classNames(styles.button, styles[status], styles[size], {
+        [styles.loading]: loading,
+      })}
       onClick={() => {
         if (onClick) onClick();
       }}
+      disabled={loading}
     >
-      {children}
+      <div className={styles.content}>{children}</div>
+      {loading && <div className={styles.loader}>{loadingText}</div>}
     </button>
   );
 }

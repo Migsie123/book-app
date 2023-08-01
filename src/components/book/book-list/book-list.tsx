@@ -1,20 +1,24 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./book-list.module.scss";
 import { Book } from "@/types/book";
 import BookCard from "@/components/book/book-card/book-card";
 import InfiniteScrollingList from "@/components/common/infinite-scrolling-list";
 import ErrorBoundaryComponent from "@/components/common/error-boundary-component";
 
-type BookListProps = {};
+type BookListProps = {
+  addedBooks?: Book[];
+};
 
-const BookList = (props: BookListProps) => {
+const BookList = ({ addedBooks }: BookListProps) => {
   const dataFetcher = (page: number) => {
     return new Promise(async (resolve, reject) => {
       try {
         const url = new URL(window.location.href);
         url.pathname = "/api/books";
         if (page) url.searchParams.append("page", page.toString());
+        if (addedBooks && addedBooks.length)
+          url.searchParams.append("offset", addedBooks.length.toString());
         const res = await fetch(url);
         const data = await res.json();
         if (res.status !== 200)
@@ -29,7 +33,7 @@ const BookList = (props: BookListProps) => {
   };
 
   return (
-    <InfiniteScrollingList dataFetcher={dataFetcher}>
+    <InfiniteScrollingList addedItems={addedBooks} dataFetcher={dataFetcher}>
       {(book: Book, index: number) => <BookCard key={index} book={book} />}
     </InfiniteScrollingList>
   );
