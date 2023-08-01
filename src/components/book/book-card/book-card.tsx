@@ -1,5 +1,6 @@
 import Card from "@/components/common/card";
 import { Book } from "@/types/book";
+import styles from "./book-card.module.scss";
 
 type BookCardProps = {
   book: Book;

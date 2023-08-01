@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import styles from "./book-list.module.scss";
 import { Book } from "@/types/book";
-import BookCard from "@/components/book/book-card/book-card";
+import BookCard from "@/components/book/book-card";
 import InfiniteScrollingList from "@/components/common/infinite-scrolling-list";
 import ErrorBoundaryComponent from "@/components/common/error-boundary-component";
 
