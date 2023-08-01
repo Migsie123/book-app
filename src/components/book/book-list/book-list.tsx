@@ -26,7 +26,6 @@ const BookList = ({ addedBooks }: BookListProps) => {
         const books = (data.books as Book[]) || [];
         resolve(books);
       } catch (err) {
-        console.log(err);
         reject(err);
       }
     });
