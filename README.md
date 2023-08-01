@@ -1,17 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fullstack Book App
+## Frontend
+### Display infinitely scrolling list of books
+> Dynamicly loads 20 books at a time as the user scrolls. Initially load books until the parent element of the BookList becomes scrollable.
 
-## Getting Started
+### Form to add new Books to the database
+> Mandatory Title field. Optional Author field.
 
-To run the development server:
+### Error management and display
+> Form validation. API error display. React Error Boundaries for component failed states.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Backend
+### SQLite Database
+### JSON REST API
+### GET /api/books?page=0&offset=0
+> Returns 20 books sorted by Timestamp. Supports query parameters for pagination and dynamic offset to account for the Books added by user
+### POST /api/books
+> Inserts a new book to the database. Uses current date time as a timestamp.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-# book-app
+## How To Run
+``npm run dev``
